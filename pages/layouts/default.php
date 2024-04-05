@@ -1,7 +1,6 @@
 <?php
 // Start session (if not already started)
 session_start();
-var_dump($_SESSION['authenticated']);
 // Check if the user is authenticated
 $authenticated = isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true;
 
@@ -31,12 +30,6 @@ if ($authenticated) {
     <!-- Custom styles for this template-->
     <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
-</head>
-
-<body class="bg-gradient-primary">
-
-    <?= $contentView ?>
-
     <!-- Bootstrap core JavaScript-->
     <script src="/assets/vendor/jquery/jquery.min.js"></script>
     <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -46,6 +39,11 @@ if ($authenticated) {
 
     <!-- Custom scripts for all pages-->
     <script src="/assets/js/sb-admin-2.min.js"></script>
+</head>
+
+<body class="bg-gradient-primary">
+
+    <?= $contentView ?>
 
 </body>
 
