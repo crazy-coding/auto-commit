@@ -133,7 +133,7 @@ ob_start();
               <th>Explanation</th>
               <th>Skills</th>
               <th>Duration</th>
-              <th>images</th>
+              <th>Images</th>
               <th>
                 <button class="btn btn-success" onclick="newItem()">
                   <i class="fas fa-plus fa-sm fa-fw"></i>
