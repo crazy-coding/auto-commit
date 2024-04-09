@@ -52,8 +52,8 @@ function auto_commit($gitinfo, $directory) {
   }
 
   // Step 1: Clone the repository
-  exec("git clone -b $branch https://$username:$token@$repo $directory/auto-commits-repo");
-  chdir("$directory/auto-commits-repo"); // Move to the cloned repository directory
+  exec("git clone -b $branch https://$username:$token@$repo $directory/tmp");
+  chdir("$directory/tmp"); // Move to the cloned repository directory
 
   exec("git config user.name $username");
   exec("git config user.email $useremail");
@@ -80,8 +80,7 @@ function auto_commit($gitinfo, $directory) {
   exec("git push origin $branch");
 
   // Step 4: Remove cloned repository
-  chdir($directory); // Move back to the parent directory
-  exec("rm -rf auto-commits-repo"); // Remove cloned repository directory
+  exec("rm -f $directory/tmp/*"); // Remove cloned repository directory
 
   echo $numUpdates." commits pushed.\n";
 }
