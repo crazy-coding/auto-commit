@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['id']) {
     "explanation" => $_POST['explanation'],
     "skills" => $_POST['skills'],
     "duration" => $_POST['duration'],
+    "images" => $_POST['images'],
   ];
 
   $updateStatements = array();
@@ -84,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     "explanation" => $_POST['explanation'],
     "skills" => $_POST['skills'],
     "duration" => $_POST['duration'],
+    "images" => $_POST['images'],
   ];
   $fieldNames = array();
   $fieldValues = array();
@@ -131,6 +133,7 @@ ob_start();
               <th>Explanation</th>
               <th>Skills</th>
               <th>Duration</th>
+              <th>images</th>
               <th>
                 <button class="btn btn-success" onclick="newItem()">
                   <i class="fas fa-plus fa-sm fa-fw"></i>
@@ -148,6 +151,7 @@ ob_start();
                 <td><?= $project["explanation"] ?></td>
                 <td><?= $project["skills"] ?></td>
                 <td><?= $project["duration"] ?> Months</td>
+                <td><?= $project["images"] ?></td>
                 <td>
                   <div class="d-flex">
                     <button class="btn btn-primary mr-2" onclick="editItem(<?= $project['id'] ?>)">
@@ -245,6 +249,10 @@ ob_start();
                 <option value="24">2 Years</option>
               </select>
             </div>
+            <div class="form-group">
+              <label for="project_images">Images</label>
+              <textarea class="form-control project-input" name="images" id="project_images" rows="5"></textarea>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -282,6 +290,7 @@ ob_start();
           $("#project_explanation").val(data.explanation);
           $("#project_skills").val(data.skills);
           $("#project_duration").val(data.duration);
+          $("#project_images").val(data.images);
 
           $('#upsertModal').modal('show');
         })
