@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['id']) {
     "useremail" => $_POST['useremail'],
     "token" => $_POST['token'],
     "url" => $_POST['url'],
-    "branch" => $_POST['branch'],
+    "branch" => $_POST['branch'] ?? "main",
     "description" => $_POST['description'],
     "cronoption" => $_POST['cronoption'],
   ];
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     "useremail" => $_POST['useremail'],
     "token" => $_POST['token'],
     "url" => $_POST['url'],
-    "branch" => $_POST['branch'],
+    "branch" => $_POST['branch'] ?? "main",
     "description" => $_POST['description'],
     "cronoption" => $_POST['cronoption'],
   ];
@@ -229,7 +229,7 @@ ob_start();
             </div>
             <div class="form-group">
               <label for="option_branch">Branch</label>
-              <input type="text" class="form-control option-input" name="branch" id="option_branch">
+              <input type="text" class="form-control option-input" placeholder="main" name="branch" id="option_branch">
             </div>
             <div class="form-group">
               <label for="option_description">Description</label>
