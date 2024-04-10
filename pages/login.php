@@ -1,5 +1,5 @@
 <?php
-include "services/envs.php";
+include __DIR__."/services/envs.php";
 $error = "";
 
 // Post request
@@ -60,5 +60,5 @@ ob_start();
 $contentView = ob_get_clean();
 
 // Include login layout
-include "layouts/default.php";
+include __DIR__."/layouts/default.php";
 ?>

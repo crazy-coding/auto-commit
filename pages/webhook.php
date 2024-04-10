@@ -1,7 +1,7 @@
 <?php
-include "services/db.php";
+include __DIR__."/services/db.php";
 
-$directory = __DIR__."/../..";
+$directory = __DIR__."/../../tmp";
 
 function auto_commit($gitinfo, $directory) {
   echo "Git user [".$gitinfo['username']."] is commiting... ";

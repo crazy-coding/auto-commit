@@ -1,5 +1,5 @@
 <?php
-include "services/db.php";
+include __DIR__."/services/db.php";
 // Get id
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
   $sql = "SELECT * FROM portfolios_projects WHERE id = " . $_GET['id'];
@@ -312,5 +312,5 @@ ob_start();
 $contentView = ob_get_clean();
 
 // Include login layout
-include "layouts/admin.php";
+include __DIR__."/layouts/admin.php";
 ?>
