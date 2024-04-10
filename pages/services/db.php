@@ -1,5 +1,5 @@
 <?php
-include "services/envs.php";
+include __DIR__."/envs.php";
 
 $servername = $env_variables["DB_HOST"] ?? 'localhost';
 $username = $env_variables["DB_USER"] ?? 'username';

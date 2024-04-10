@@ -1302,5 +1302,5 @@ ob_start();
 $contentView = ob_get_clean();
 
 // Include login layout
-include "layouts/admin.php";
+include __DIR__."/layouts/admin.php";
 ?>

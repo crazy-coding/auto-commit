@@ -1,5 +1,5 @@
 <?php
-include "services/db.php";
+include __DIR__."/services/db.php";
 
 $directory = __DIR__."/../../tmp";
 
