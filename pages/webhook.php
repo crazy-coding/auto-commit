@@ -84,18 +84,37 @@ function auto_commit($gitinfo, $directory) {
   exec("rm -rf auto-commits-repo"); // Remove cloned repository directory
 
   echo $numUpdates." commits pushed.\n";
+
+  return $numUpdates;
 }
 
 echo "Started cronjob : ".date("Y-m-d")."\n";
 $sql = "SELECT * FROM autocommits_gitinfos";
 $result = $conn->query($sql);
 
+$commits_log = [];
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    auto_commit($row, $directory);
+    $commits_log[$row['id']] = auto_commit($row, $directory);
   }
   echo "Completed cronjob successfully!!\n";
+
+  // Prepare and bind the SQL statement
+  $stmt = $conn->prepare("INSERT INTO autocommits_logs (gitinfo_id, commits, commit_at) VALUES (?, ?, NOW())");
+
+  // Bind parameters and execute the statement for each item in the array
+  foreach ($commits_log as $gitinfo_id => $commits) {
+      $stmt->bind_param("ii", $gitinfo_id, $commits);
+      $stmt->execute();
+  }
+
+  echo "Records inserted successfully";
+
+  // Close statement and connection
+  $stmt->close();
 } else {
   echo "No git infos.\n";
 }
+
+$conn->close();
 ?>
