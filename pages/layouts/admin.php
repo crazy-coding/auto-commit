@@ -83,6 +83,11 @@ if (!$authenticated) {
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Options</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/pages/logs.php">
+                    <i class="fas fa-fw fa-calendar"></i>
+                    <span>Logs</span></a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
