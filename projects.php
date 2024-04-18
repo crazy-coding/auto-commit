@@ -2,7 +2,7 @@
 include __DIR__."/services/db.php";
 // Get id
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
-  $sql = "SELECT * FROM autocommits_gitinfos WHERE id = " . $_GET['id'];
+  $sql = "SELECT * FROM portfolios_projects WHERE id = " . $_GET['id'];
   $result = $conn->query($sql);
   $data = array();
   if ($result->num_rows > 0) {
@@ -17,13 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
 }
 
 // Get all
-$sql = "SELECT * FROM autocommits_gitinfos";
+$sql = "SELECT * FROM portfolios_projects";
 $result = $conn->query($sql);
-$view_options = [];
+$view_projects = [];
 
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $view_options[] = $row;
+    $view_projects[] = $row;
   }
 } else {
   echo "0 results";
@@ -33,12 +33,12 @@ if ($result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['_method'] == "DELETE") {
   $id = $_POST['id'];
 
-  $sql = "DELETE FROM autocommits_gitinfos WHERE id=$id";
+  $sql = "DELETE FROM portfolios_projects WHERE id=$id";
 
   if ($conn->query($sql) === TRUE) {
     echo "Record deleted successfully";
     $conn->close();
-    header('Location: options.php');
+    header('Location: projects.php');
   } else {
     echo "Error deleting record: " . $conn->error;
   }
@@ -48,13 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['_method'] == "DELETE") {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['id']) {
   $id = $_POST['id'];
   $form = [
-    "username" => $_POST['username'],
-    "useremail" => $_POST['useremail'],
-    "token" => $_POST['token'],
-    "url" => $_POST['url'],
-    "branch" => $_POST['branch'] ?? "main",
+    "title" => $_POST['title'],
+    "name" => $_POST['name'],
+    "summary" => $_POST['summary'],
     "description" => $_POST['description'],
-    "cronoption" => $_POST['cronoption'],
+    "explanation" => $_POST['explanation'],
+    "skills" => $_POST['skills'],
+    "duration" => $_POST['duration'],
+    "images" => $_POST['images'],
   ];
 
   $updateStatements = array();
@@ -63,12 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['id']) {
     $updateStatements[] = "$key = '$escapedValue'";
   }
   $updateString = implode(", ", $updateStatements);
-  $sql = "UPDATE autocommits_gitinfos SET $updateString WHERE id = $id";
+  $sql = "UPDATE portfolios_projects SET $updateString WHERE id = $id";
 
   if ($conn->query($sql) === TRUE) {
     echo "Record updated successfully";
     $conn->close();
-    header('Location: options.php');
+    header('Location: projects.php');
   } else {
     echo "Error updating record: " . $conn->error;
   }
@@ -77,13 +78,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['id']) {
 // Insert
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $form = [
-    "username" => $_POST['username'],
-    "useremail" => $_POST['useremail'],
-    "token" => $_POST['token'],
-    "url" => $_POST['url'],
-    "branch" => $_POST['branch'] ?? "main",
+    "title" => $_POST['title'],
+    "name" => $_POST['name'],
+    "summary" => $_POST['summary'],
     "description" => $_POST['description'],
-    "cronoption" => $_POST['cronoption'],
+    "explanation" => $_POST['explanation'],
+    "skills" => $_POST['skills'],
+    "duration" => $_POST['duration'],
+    "images" => $_POST['images'],
   ];
   $fieldNames = array();
   $fieldValues = array();
@@ -94,43 +96,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
   $fieldNamesString = implode(", ", $fieldNames);
   $fieldValuesString = implode(", ", $fieldValues);
-  $sql = "INSERT INTO autocommits_gitinfos ($fieldNamesString) VALUES ($fieldValuesString)";
+  $sql = "INSERT INTO portfolios_projects ($fieldNamesString) VALUES ($fieldValuesString)";
   if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
     $conn->close();
-    header('Location: options.php');
+    header('Location: projects.php');
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
   }
 }
 
 // Set page title
-$pageTitle = "Auto Commits - Options";
+$pageTitle = "Portfolios - Projects";
 
 ob_start();
 ?>
 <div class="container-fluid">
   <!-- Page Heading -->
-  <h1 class="h3 mb-2 text-gray-800">Auto Commits / Options</h1>
-  <p class="mb-4">Git infomations that can be used for daily auto commits.</p>
+  <h1 class="h3 mb-2 text-gray-800">Portfolios / Projects</h1>
+  <p class="mb-4">The projects that can be used for portfolios websites.</p>
 
-  <!-- Options cards -->
+  <!-- Projects cards -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Options</h6>
+      <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
     </div>
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>User Name</th>
-              <th>User Email</th>
-              <th>Token</th>
-              <th>URL</th>
-              <th>Branch</th>
+              <th>Title</th>
+              <th>Name</th>
+              <th>Summary</th>
               <th>Description</th>
-              <th>Cron Option</th>
+              <th>Explanation</th>
+              <th>Skills</th>
+              <th>Duration</th>
+              <th>Images</th>
               <th>
                 <button class="btn btn-success" onclick="newItem()">
                   <i class="fas fa-plus fa-sm fa-fw"></i>
@@ -139,21 +142,22 @@ ob_start();
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($view_options as $option) { ?>
+            <?php foreach ($view_projects as $project) { ?>
               <tr>
-                <td><?= $option["username"] ?></td>
-                <td><?= $option["useremail"] ?></td>
-                <td><?= $option["token"] ?></td>
-                <td><?= $option["url"] ?></td>
-                <td><?= $option["branch"] ?></td>
-                <td><?= $option["description"] ?></td>
-                <td><?= $option["cronoption"] ?></td>
+                <td><?= $project["title"] ?></td>
+                <td><?= $project["name"] ?></td>
+                <td><?= $project["summary"] ?></td>
+                <td><?= $project["description"] ?></td>
+                <td><?= $project["explanation"] ?></td>
+                <td><?= $project["skills"] ?></td>
+                <td><?= $project["duration"] ?> Months</td>
+                <td><?= $project["images"] ?></td>
                 <td>
                   <div class="d-flex">
-                    <button class="btn btn-primary mr-2" onclick="editItem(<?= $option['id'] ?>)">
+                    <button class="btn btn-primary mr-2" onclick="editItem(<?= $project['id'] ?>)">
                       <i class="fas fa-pen fa-sm fa-fw"></i>
                     </button>
-                    <button class="btn btn-danger" onclick="deleteItem(<?= $option['id'] ?>)">
+                    <button class="btn btn-danger" onclick="deleteItem(<?= $project['id'] ?>)">
                       <i class="fas fa-trash fa-sm fa-fw"></i>
                     </button>
                   </div>
@@ -167,11 +171,11 @@ ob_start();
   </div>
 
   <!-- Page level plugins -->
-  <script a src="/assets/vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="/assets/js/demo/datatables-demo.js"></script>
+  <script src="assets/js/demo/datatables-demo.js"></script>
 
   <!-- Delete Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -180,14 +184,14 @@ ob_start();
         <form action="" method="POST">
           <input type="hidden" name="_method" value="DELETE">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Option</h5>
+            <h5 class="modal-title" id="deleteModalLabel">Project</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <input type="number" class="option-input" hidden name="id" id="delete_option_id">
-            <p>Are you sure to delete this option?</p>
+            <input type="number" class="project-input" hidden name="id" id="delete_project_id">
+            <p>Are you sure to delete this project?</p>
           </div>
           <div class="modal-footer">
             <button type="reset" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -204,40 +208,50 @@ ob_start();
       <div class="modal-content">
         <form action="" method="POST">
           <div class="modal-header">
-            <h5 class="modal-title" id="upsertModalLabel">Option</h5>
+            <h5 class="modal-title" id="upsertModalLabel">Project</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <input type="number" class="option-input" hidden name="id" id="option_id">
+            <input type="number" class="project-input" hidden name="id" id="project_id">
             <div class="form-group">
-              <label for="option_username">User Name</label>
-              <input type="text" class="form-control option-input" name="username" id="option_username">
+              <label for="project_title">Title</label>
+              <input type="text" class="form-control project-input" name="title" id="project_title">
             </div>
             <div class="form-group">
-              <label for="option_useremail">User Email</label>
-              <input type="text" class="form-control option-input" name="useremail" id="option_useremail">
+              <label for="project_name">Name</label>
+              <input type="text" class="form-control project-input" name="name" id="project_name">
             </div>
             <div class="form-group">
-              <label for="option_token">Token</label>
-              <input type="text" class="form-control option-input" name="token" id="option_token">
+              <label for="project_summary">Summary</label>
+              <textarea class="form-control project-input" name="summary" id="project_summary" rows="3"></textarea>
             </div>
             <div class="form-group">
-              <label for="option_url">URL</label>
-              <input type="text" class="form-control option-input" name="url" id="option_url">
+              <label for="project_description">Description</label>
+              <textarea class="form-control project-input" name="description" id="project_description" rows="4"></textarea>
             </div>
             <div class="form-group">
-              <label for="option_branch">Branch</label>
-              <input type="text" class="form-control option-input" placeholder="main" name="branch" id="option_branch">
+              <label for="project_explanation">Explanation</label>
+              <textarea class="form-control project-input" name="explanation" id="project_explanation" rows="6"></textarea>
             </div>
             <div class="form-group">
-              <label for="option_description">Description</label>
-              <textarea class="form-control option-input" name="description" id="option_description" rows="4"></textarea>
+              <label for="project_skills">Skills</label>
+              <textarea class="form-control project-input" name="skills" id="project_skills" rows="3"></textarea>
             </div>
             <div class="form-group">
-              <label for="option_cronoption">Cron Option <i class="ml-2 fa fa-info fa-sm fa-fw" data-toggle="tooltip" title="--workdays=full|sometimes|never --commits=min,max"></i></label>
-              <input type="text" class="form-control option-input" name="cronoption" id="option_cronoption">
+              <label for="project_duration">Duration</label>
+              <select class="form-control project-input" name="duration" id="project_project_duration">
+                <option value="1">A Month</option>
+                <option value="2">2 Months</option>
+                <option value="6">Half a Year</option>
+                <option value="12">A Year</option>
+                <option value="24">2 Years</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="project_images">Images</label>
+              <textarea class="form-control project-input" name="images" id="project_images" rows="5"></textarea>
             </div>
           </div>
           <div class="modal-footer">
@@ -251,13 +265,13 @@ ob_start();
 
   <script>
     function newItem() {
-      $(".option-input").val('');
-      $("#upsertModalLabel").text("New Option");
+      $(".project-input").val('');
+      $("#upsertModalLabel").text("New Project");
       $('#upsertModal').modal('show');
     }
 
     function editItem(id) {
-      fetch(`/pages/options.php?id=${id}`)
+      fetch(`projects.php?id=${id}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -267,15 +281,16 @@ ob_start();
         .then(data => {
           // Handle the retrieved data
           console.log(data);
-          $("#upsertModalLabel").text("Edit Option - " + data.id);
-          $("#option_id").val(data.id);
-          $("#option_username").val(data.username);
-          $("#option_useremail").val(data.useremail);
-          $("#option_token").val(data.token);
-          $("#option_url").val(data.url);
-          $("#option_branch").val(data.branch);
-          $("#option_description").val(data.description);
-          $("#option_cronoption").val(data.cronoption);
+          $("#upsertModalLabel").text("Edit Project - " + data.id);
+          $("#project_id").val(data.id);
+          $("#project_title").val(data.title);
+          $("#project_name").val(data.name);
+          $("#project_summary").val(data.summary);
+          $("#project_description").val(data.description);
+          $("#project_explanation").val(data.explanation);
+          $("#project_skills").val(data.skills);
+          $("#project_duration").val(data.duration);
+          $("#project_images").val(data.images);
 
           $('#upsertModal').modal('show');
         })
@@ -286,8 +301,8 @@ ob_start();
     }
 
     function deleteItem(id) {
-      $("#delete_option_id").val(id);
-      $("#deleteModalLabel").text("Delete Option - " + id);
+      $("#delete_project_id").val(id);
+      $("#deleteModalLabel").text("Delete Project - " + id);
       $('#deleteModal').modal('show');
     }
   </script>

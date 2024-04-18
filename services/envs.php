@@ -1,6 +1,6 @@
 <?php
 // Read the .env file
-$env_file = __DIR__."/../../.env";
+$env_file = __DIR__."/../.env";
 $env_data = file_get_contents($env_file);
 
 // Parse the .env data to extract the environment variables

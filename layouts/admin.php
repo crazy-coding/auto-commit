@@ -25,23 +25,23 @@ if (!$authenticated) {
     <title><?= $pageTitle ?></title>
 
     <!-- Custom fonts for this template-->
-    <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript-->
-    <script src="/assets/vendor/jquery/jquery.min.js"></script>
-    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="/assets/js/sb-admin-2.min.js"></script>
+    <script src="assets/js/sb-admin-2.min.js"></script>
 </head>
 
 <body id="page-top" class="sidebar-toggled">
@@ -65,7 +65,7 @@ if (!$authenticated) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="/pages/dashboard.php">
+                <a class="nav-link" href="dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -79,12 +79,12 @@ if (!$authenticated) {
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="/pages/options.php">
+                <a class="nav-link" href="options.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Options</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/pages/logs.php">
+                <a class="nav-link" href="logs.php">
                     <i class="fas fa-fw fa-calendar"></i>
                     <span>Logs</span></a>
             </li>
@@ -98,7 +98,7 @@ if (!$authenticated) {
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="/pages/projects.php">
+                <a class="nav-link" href="projects.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Projects</span></a>
             </li>
@@ -196,7 +196,7 @@ if (!$authenticated) {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/pages/logout.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

@@ -503,11 +503,11 @@ ob_start();
     </div>
 
     <!-- Page level plugins -->
-    <script a src="/assets/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="/assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="assets/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/assets/js/demo/datatables-demo.js"></script>
+    <script src="assets/js/demo/datatables-demo.js"></script>
 
 
     <!-- Page Heading -->
@@ -574,12 +574,12 @@ ob_start();
     </div>
 
     <!-- Page level plugins -->
-    <script src="/assets/vendor/chart.js/Chart.min.js"></script>
+    <script src="assets/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="/assets/js/demo/chart-area-demo.js"></script>
-    <script src="/assets/js/demo/chart-pie-demo.js"></script>
-    <script src="/assets/js/demo/chart-bar-demo.js"></script>
+    <script src="assets/js/demo/chart-area-demo.js"></script>
+    <script src="assets/js/demo/chart-pie-demo.js"></script>
+    <script src="assets/js/demo/chart-bar-demo.js"></script>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
